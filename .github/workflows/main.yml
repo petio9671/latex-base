@@ -2,7 +2,7 @@ name: Build LaTeX document
 on: [push]
 env:
   target: master
-  ref: ${{ github.ref_name }}  # Updated to use a more reliable GitHub context
+  ref: ${{ github.ref_name }}
 jobs:
   build-head-pdf:
     runs-on: ubuntu-latest
@@ -14,20 +14,20 @@ jobs:
           echo "branch=${with_slashes//\//-}" >> $GITHUB_OUTPUT
         id: extract_branch
       - name: Set up Git repository
-        uses: actions/checkout@v4  # Updated to v4
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Compile LaTeX document
-        uses: dante-ev/latex-action@latest  # Updated to v4
+        uses: dante-ev/latex-action@latest
         with:
-          compiler: make  # Ensuring the 'make' command is used if required
+          compiler: make
           args: VERBOSE=1 TARGET=${{ env.target }}
-          root_file: ${{ env.target }}.pdf  # Correct root file to be the LaTeX source
+          root_file: ${{ env.target }}.pdf
       - name: Copy to ref-suffixed file
         run: cp ${{ env.target }}.pdf ${{ env.target }}-${{ steps.extract_branch.outputs.branch }}.pdf
       - name: Store compiled PDF artifact
         if: success()
-        uses: actions/upload-artifact@v4  # Updated to v4
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.target }}-${{ steps.extract_branch.outputs.branch }}.pdf
           path: ${{ env.target }}-${{ steps.extract_branch.outputs.branch }}.pdf
