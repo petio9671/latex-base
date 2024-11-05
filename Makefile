@@ -1,4 +1,4 @@
-SHELL=/usr/bin/bash
+SHELL=bash
 TEX=pdflatex -halt-on-error -interaction=nonstopmode
 BIB=bibtex
 
